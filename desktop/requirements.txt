@@ -1,0 +1,4 @@
+# Desktop client runtime dependencies (PySide6 GUI + REST client).
+PySide6==6.11.2
+httpx==0.28.1
+python-dotenv==1.2.4

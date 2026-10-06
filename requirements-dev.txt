@@ -1,0 +1,6 @@
+# Full local development environment: backend + desktop + test tooling.
+-r backend/requirements.txt
+-r desktop/requirements.txt
+pytest==9.1.1
+# HTTP client used by FastAPI/Starlette's TestClient.
+httpx2==2.13.1

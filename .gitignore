@@ -1,0 +1,46 @@
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+.coverage
+htmlcov/
+
+# Node / Web
+node_modules/
+web/dist/
+*.tsbuildinfo
+
+# IDE / OS
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store
+
+# Logs
+*.log
+
+# Internal documentation: only README.md files are tracked
+*.md
+!README.md
+docs/README.md
+
+# AI assistant files
+.claude/
+CLAUDE.md
+CLAUDE.local.md
+.claudeignore
+.mcp.json
+.cursor/
+.cursorrules
+.aider*
+.github/copilot-instructions.md
