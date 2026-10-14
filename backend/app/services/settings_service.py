@@ -6,7 +6,7 @@ from app.repositories.settings_repository import ColumnSettingsRepository
 from app.schemas.settings import OPTIONAL_COLUMNS, ColumnVisibilitySettings, ColumnVisibilityUpdate
 
 
-logger = logging.getLogger("nastusha")
+logger = logging.getLogger("minidrive")
 
 
 class ColumnSettingsService:

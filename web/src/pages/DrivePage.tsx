@@ -49,9 +49,9 @@ type Dialog =
 export function DrivePage({ folders, folderId, reloadFolders, columnSettings }: DrivePageProps) {
   const toast = useToast();
   const { t } = useI18n();
-  const [extension, setExtension] = usePreference<ExtensionFilter>("nastusha.filter", "", oneOf("", ".c", ".jpg"));
-  const [sort, setSort] = usePreference<SortField>("nastusha.sort", "created_at", oneOf("created_at", "modified_at", "name"));
-  const [order, setOrder] = usePreference<SortOrder>("nastusha.order", "desc", oneOf("asc", "desc"));
+  const [extension, setExtension] = usePreference<ExtensionFilter>("minidrive.filter", "", oneOf("", ".c", ".jpg"));
+  const [sort, setSort] = usePreference<SortField>("minidrive.sort", "created_at", oneOf("created_at", "modified_at", "name"));
+  const [order, setOrder] = usePreference<SortOrder>("minidrive.order", "desc", oneOf("asc", "desc"));
 
   const [files, setFiles] = useState<RemoteFile[] | null>(null);
   const [loading, setLoading] = useState(true);

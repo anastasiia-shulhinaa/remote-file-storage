@@ -204,7 +204,7 @@ npm run build        # type check + production build into web/dist
 
 During development keep the backend running. Vite forwards `/auth`, `/folders`, `/files`, `/sync`,
 `/synchronizations`, `/settings` to FastAPI, so the browser sees one origin and no CORS setup is
-needed (set `NASTUSHA_API_URL` to proxy elsewhere). In production FastAPI serves `web/dist` itself.
+needed (set `MINIDRIVE_API_URL` to proxy elsewhere). In production FastAPI serves `web/dist` itself.
 The web client contains **no Supabase keys**: it talks only to the REST API, with the same Bearer
 tokens as the desktop client (kept in `localStorage`, refreshed automatically on 401).
 
@@ -280,11 +280,11 @@ Browser ── HTTPS ──> Render (Docker) ── FastAPI ──┬── REST
                                                   └── web/dist (React build, static files)
 ```
 
-Local check: `docker build -t nastusha . && docker run -p 8000:8000 --env-file backend/.env nastusha`.
+Local check: `docker build -t minidrive . && docker run -p 8000:8000 --env-file backend/.env minidrive`.
 
 1. Push the repository to GitHub (`backend/.env` is git-ignored).
 2. Render → **New → Blueprint** → select the repository. `render.yaml` creates the
-   `nastusha-drive` Docker web service.
+   `minidrive` Docker web service.
 3. In the Render Dashboard set `SUPABASE_URL`, `SUPABASE_KEY`, `SUPABASE_ANON_KEY` (and
    `CORS_ORIGINS` only if the web client is hosted on a different origin).
 4. After deploy, open `https://<service>.onrender.com/` (web client), `/health` and `/docs`, then

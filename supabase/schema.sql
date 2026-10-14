@@ -1,4 +1,4 @@
--- Nastusha — database schema, indexes, RLS and Storage bucket.
+-- MiniDrive — database schema, indexes, RLS and Storage bucket.
 -- Run once in Supabase Dashboard → SQL Editor.
 
 -- ---------------------------------------------------------------------------

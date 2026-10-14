@@ -5,7 +5,7 @@ from app.core.errors import StorageError
 from app.core.supabase import get_supabase
 
 
-logger = logging.getLogger("nastusha")
+logger = logging.getLogger("minidrive")
 
 
 class StorageService:

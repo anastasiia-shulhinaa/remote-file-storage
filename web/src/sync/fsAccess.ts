@@ -40,7 +40,7 @@ export type AccessMode = "read" | "readwrite";
 export async function pickDirectory(): Promise<FileSystemDirectoryHandle> {
   const picker = (window as unknown as { showDirectoryPicker: ShowDirectoryPicker }).showDirectoryPicker;
   try {
-    return await picker({ id: "nastusha-sync", mode: "read" });
+    return await picker({ id: "minidrive-sync", mode: "read" });
   } catch (error) {
     if (error instanceof DOMException && error.name === "AbortError") throw new PickerCancelled();
     if (error instanceof DOMException && (error.name === "SecurityError" || error.name === "NotAllowedError")) {

@@ -1,3 +1,4 @@
+import "./lib/legacyStorage"; // first: renames old "nastusha.*" storage keys before anything reads them
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { App } from "./App";

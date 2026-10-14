@@ -17,7 +17,7 @@ import logging
 
 from app.schemas.file import FileDto, PreviewResponse
 
-logger = logging.getLogger("nastusha")
+logger = logging.getLogger("minidrive")
 
 MAX_TEXT_PREVIEW_BYTES = 1024 * 1024
 MAX_BINARY_PREVIEW_BYTES = 15 * 1024 * 1024

@@ -34,7 +34,7 @@ from app.synchronization.journal import SyncJournal, now_iso
 from app.synchronization.rollback import RemoteRollback
 from app.synchronization.scanner import RemoteFolderScanner
 
-logger = logging.getLogger("nastusha")
+logger = logging.getLogger("minidrive")
 
 # a PENDING/RUNNING session without any activity for this long was abandoned
 # (client closed or crashed): it no longer blocks its target folder

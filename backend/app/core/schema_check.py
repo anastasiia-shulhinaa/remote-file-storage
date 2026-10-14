@@ -8,7 +8,7 @@ answers with the clear code "schema_outdated" instead of misbehaving.
 import logging
 import time
 
-logger = logging.getLogger("nastusha")
+logger = logging.getLogger("minidrive")
 
 # (description, table, columns) — what the current code needs
 REQUIRED = [

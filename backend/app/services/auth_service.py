@@ -21,7 +21,7 @@ from app.schemas.auth import (
 )
 from app.services.folder_service import FolderService
 
-logger = logging.getLogger("nastusha")
+logger = logging.getLogger("minidrive")
 
 
 class AuthService:

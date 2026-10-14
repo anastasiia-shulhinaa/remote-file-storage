@@ -17,7 +17,7 @@ from app.schemas.sync import OperationKind, OperationStatus
 from app.storage.storage_service import StorageService
 from app.synchronization.journal import now_iso
 
-logger = logging.getLogger("nastusha")
+logger = logging.getLogger("minidrive")
 
 CLAIMABLE = [OperationStatus.PENDING.value, OperationStatus.APPLIED.value, OperationStatus.ROLLBACK_FAILED.value]
 # an entry left in ROLLING_BACK by a crashed request may be claimed again after this time

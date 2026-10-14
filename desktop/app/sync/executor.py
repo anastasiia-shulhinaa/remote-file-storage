@@ -168,7 +168,7 @@ class SyncExecutor:
 
         entry = self.journal.before_write(change["relative_path"]) if self.journal else None
         path.parent.mkdir(parents=True, exist_ok=True)
-        temp = path.with_name(path.name + ".nastusha-part")
+        temp = path.with_name(path.name + ".minidrive-part")
         temp.write_bytes(content)
         os.replace(temp, path)
 

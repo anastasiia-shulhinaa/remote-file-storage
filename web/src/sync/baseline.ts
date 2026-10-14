@@ -18,7 +18,7 @@ export interface BaselineEntry {
 
 export type Baseline = Record<string, BaselineEntry>;
 
-const PREFIX = "nastusha.sync.baseline.";
+const PREFIX = "minidrive.sync.baseline.";
 
 function key(remoteFolderId: string, localFolderName: string): string {
   return `${PREFIX}${remoteFolderId}.${localFolderName}`;

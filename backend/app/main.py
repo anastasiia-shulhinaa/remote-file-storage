@@ -12,7 +12,7 @@ from app.api.deps import get_schema_check
 from app.core.config import settings
 from app.core.errors import AppError
 
-logger = logging.getLogger("nastusha")
+logger = logging.getLogger("minidrive")
 
 app = FastAPI(
     title="MiniDrive API",

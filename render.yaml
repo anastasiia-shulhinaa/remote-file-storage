@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: nastusha-drive
+    name: minidrive
     runtime: docker
     plan: free
     dockerfilePath: ./Dockerfile

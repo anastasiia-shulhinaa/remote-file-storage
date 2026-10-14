@@ -24,7 +24,7 @@ import type {
 } from "./types";
 
 const API_URL = (import.meta.env.VITE_API_URL ?? "").replace(/\/+$/, "");
-const SESSION_KEY = "nastusha.session";
+const SESSION_KEY = "minidrive.session";
 
 export { ApiError };
 

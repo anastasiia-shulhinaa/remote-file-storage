@@ -8,7 +8,7 @@ import logging
 
 from app.core.supabase import create_auth_client, get_supabase
 
-logger = logging.getLogger("nastusha")
+logger = logging.getLogger("minidrive")
 
 
 class AuthGatewayError(Exception):
