@@ -1,0 +1,10 @@
+fastapi
+uvicorn[standard]
+supabase>=2.10
+python-dotenv
+python-multipart
+pydantic-settings
+httpx
+pytest
+pytest-asyncio
+mammoth

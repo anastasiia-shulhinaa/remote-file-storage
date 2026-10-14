@@ -1,0 +1,75 @@
+@startuml ERD
+hide circle
+skinparam linetype ortho
+
+entity "auth.users\n(Supabase Auth)" as auth_users {
+  * id : uuid
+  --
+  email, encrypted password, …
+}
+
+entity users {
+  * id : uuid <<PK, FK auth.users>>
+  --
+  * email : text
+  * display_name : text
+  * created_at : timestamptz
+}
+
+entity folders {
+  * id : uuid <<PK>>
+  --
+  * user_id : uuid <<FK users>>
+  parent_folder_id : uuid <<FK folders>>
+  * name : text
+  * created_at : timestamptz
+}
+
+entity files {
+  * id : uuid <<PK>>
+  --
+  * folder_id : uuid <<FK folders>>
+  * name : text
+  * extension : text
+  * size : bigint
+  * storage_path : text <<unique>>
+  * created_at : timestamptz
+  * modified_at : timestamptz
+  * uploaded_by : uuid <<FK users>>
+  * modified_by : uuid <<FK users>>
+}
+
+entity column_visibility_settings {
+  * user_id : uuid <<PK, FK users>>
+  --
+  * size : boolean
+  * created_at : boolean
+  * modified_at : boolean
+  * uploaded_by : boolean
+  * modified_by : boolean
+}
+
+entity synchronizations {
+  * id : uuid <<PK>>
+  --
+  * user_id : uuid <<FK users>>
+  remote_folder_id : uuid <<FK folders, set null>>
+  * client : text (desktop | web | api)
+  * mode : text
+  * status : text (PENDING | RUNNING | COMPLETED | FAILED)
+  * planned_changes, uploaded, downloaded,
+    deleted_local, deleted_remote, unchanged, failed : integer
+  error : text
+  * started_at : timestamptz
+  finished_at : timestamptz
+}
+
+auth_users ||--|| users
+users ||--o{ folders
+folders |o--o{ folders : parent
+folders ||--o{ files
+users ||--o{ files : uploaded_by / modified_by
+users ||--o| column_visibility_settings
+users ||--o{ synchronizations
+folders |o--o{ synchronizations : target
+@enduml

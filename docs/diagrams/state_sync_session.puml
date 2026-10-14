@@ -1,0 +1,19 @@
+@startuml State_SyncSession
+title Synchronization session (public.synchronizations.status)
+[*] --> PENDING : POST /sync (plan created)
+PENDING --> RUNNING : first journaled change\nor PATCH RUNNING
+PENDING --> COMPLETED : nothing to do
+RUNNING --> RUNNING : PATCH (progress / heartbeat)
+RUNNING --> COMPLETED : PATCH COMPLETED
+RUNNING --> FAILED : PATCH FAILED\nor abandoned (no activity 10 min)
+PENDING --> CANCEL_REQUESTED : POST /sync/{id}/cancel
+RUNNING --> CANCEL_REQUESTED : POST /sync/{id}/cancel
+note right of CANCEL_REQUESTED : no further journaled changes\n(409 sync_cancelled)
+CANCEL_REQUESTED --> ROLLING_BACK : POST /sync/{id}/rollback\n(server reverses remote changes)
+ROLLING_BACK --> CANCELLED : rollback/finish\n(client restored local changes)
+ROLLING_BACK --> ROLLBACK_FAILED : rollback/finish\n(some change not restored)
+ROLLBACK_FAILED --> ROLLING_BACK : retry
+COMPLETED --> [*]
+FAILED --> [*]
+CANCELLED --> [*]
+@enduml

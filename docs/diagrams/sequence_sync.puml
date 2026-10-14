@@ -1,0 +1,51 @@
+@startuml Sequence_Sync
+actor User
+participant "SyncDialog / SyncPage" as SyncDialog
+note over SyncDialog : Desktop (PySide6) or Web (React + TS)
+participant LocalFolderScanner
+participant ApiClient
+participant SynchronizationController
+participant SynchronizationService
+participant RemoteFolderScanner
+participant FileRepository
+participant FileComparator
+participant SyncConflictResolver
+participant "SyncExecutor / BrowserSyncExecutor" as SyncExecutor
+participant SynchronizationRepository
+
+User -> SyncDialog : select local + remote folder, Synchronize
+SyncDialog -> LocalFolderScanner : scan(local_root)
+LocalFolderScanner --> SyncDialog : manifest (path, size, modified_at)
+SyncDialog -> ApiClient : post_sync(folder_id, manifest)
+ApiClient -> SynchronizationController : POST /sync
+SynchronizationController -> SynchronizationService : run(user_id, folder_id, manifest)
+SynchronizationService -> RemoteFolderScanner : scan(user_id, folder_id)
+RemoteFolderScanner -> FileRepository : list_by_folders(subtree)
+FileRepository --> RemoteFolderScanner : metadata
+RemoteFolderScanner --> SynchronizationService : RemoteFile[]
+SynchronizationService -> FileComparator : compare(manifest, remote)
+FileComparator --> SynchronizationService : SyncEntry[]
+SynchronizationService -> SyncConflictResolver : resolve(entries)
+note right : newer modified_at wins,\nuser is not asked
+SyncConflictResolver --> SynchronizationService : FileChange[]
+SynchronizationService -> SynchronizationRepository : create(PENDING summary)
+SynchronizationService --> ApiClient : SynchronizationPlan + synchronization_id
+ApiClient --> SyncDialog : plan
+SyncDialog -> ApiClient : PATCH /synchronizations/{id} (RUNNING)
+SyncDialog -> SyncExecutor : execute(plan)
+loop for each change
+  alt UPLOAD_LOCAL
+    SyncExecutor -> ApiClient : POST /files
+  else DOWNLOAD_REMOTE
+    SyncExecutor -> ApiClient : GET /files/{id}/content
+  else DELETE_REMOTE
+    SyncExecutor -> ApiClient : DELETE /files/{id}
+  else DELETE_LOCAL
+    SyncExecutor -> SyncExecutor : delete local file
+  end
+end
+SyncExecutor --> SyncDialog : SyncResult
+SyncDialog -> ApiClient : PATCH /synchronizations/{id} (COMPLETED | FAILED + counts)
+ApiClient -> SynchronizationRepository : update summary
+SyncDialog --> User : show result
+@enduml

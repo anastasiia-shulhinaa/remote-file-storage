@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: nastusha-drive
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /health
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: SUPABASE_STORAGE_BUCKET
+        value: files
+      # secrets: set the values in Render Dashboard, never in Git
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_KEY
+        sync: false
+      - key: SUPABASE_ANON_KEY
+        sync: false
+      # only needed if the web client is hosted on another origin
+      - key: CORS_ORIGINS
+        sync: false

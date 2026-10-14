@@ -1,0 +1,28 @@
+@startuml Sequence_Upload
+actor User
+participant FileListView
+participant ApiClient
+participant "FilesController\n(api/files.py)" as Controller
+participant "Auth\n(get_current_user)" as Auth
+participant FileService
+participant StorageService
+participant FileRepository
+database PostgreSQL
+database "Supabase Storage" as Storage
+
+User -> FileListView : choose / drop file
+FileListView -> ApiClient : upload_file(path, folder_id)
+ApiClient -> Controller : POST /files (multipart, Bearer token)
+Controller -> Auth : verify JWT
+Auth --> Controller : user_id
+Controller -> FileService : upload_file(user_id, folder_id, file)
+FileService -> FileService : check folder ownership,\nvalidate name and size
+FileService -> StorageService : upload(storage_path, content)
+StorageService -> Storage : PUT object
+FileService -> FileRepository : create(metadata)
+FileRepository -> PostgreSQL : INSERT files
+FileService --> Controller : FileDto
+Controller --> ApiClient : 201 Created
+ApiClient --> FileListView : FileDto
+FileListView -> FileListView : refresh table
+@enduml

@@ -1,0 +1,36 @@
+@startuml Activity_Sync
+start
+:Select local folder and remote folder;
+partition "Client (Desktop / Web)" {
+  :Scan local folder;
+  :Build manifest (relative_path, size, modified_at);
+  :POST /sync;
+}
+partition Backend {
+  :Load remote metadata of the folder subtree;
+  :Compare by relative path;
+  while (next path?) is (yes)
+    if (only local?) then (yes)
+      :UPLOAD_LOCAL\n(DELETE_LOCAL in mirror-remote mode);
+    elseif (only remote?) then (yes)
+      :DOWNLOAD_REMOTE\n(DELETE_REMOTE in mirror-local mode);
+    elseif (local.modified_at > remote.modified_at) then (yes)
+      :UPLOAD_LOCAL;
+    elseif (remote.modified_at > local.modified_at) then (yes)
+      :DOWNLOAD_REMOTE;
+    else
+      :UNCHANGED;
+    endif
+  endwhile (no)
+  :Record synchronization (PENDING);
+  :Return SynchronizationPlan;
+}
+partition "Client (Desktop / Web)" {
+  :Confirm deletions (if any);
+  :Execute plan;
+  :PATCH /synchronizations/{id}
+(COMPLETED | FAILED + counts);
+  :Show result;
+}
+stop
+@enduml
